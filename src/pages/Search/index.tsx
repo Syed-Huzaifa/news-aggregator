@@ -46,8 +46,7 @@ const FilterNews: React.FC = () => {
     return (
         <Container className='flex flex-col gap-12 p-6' maxWidth="xl">
             <Grid container spacing={3}>
-            <div className='flex justify-between gap-8 w-full'>
-                <TextField className='w-full' id="outlined-basic" label="Search News" variant="outlined" onChange={(event) => handleQueryChange(event.target.value)} />
+            <div className='flex justify-end mr-10 gap-8 w-full'>
                 <FormDialog />
             </div>
             <h5 className='font-bold text-2xl text-black underline capitalize'>Your Feed</h5>
