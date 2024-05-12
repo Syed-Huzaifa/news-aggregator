@@ -10,6 +10,11 @@ export const sidebarItems = [
         name: 'Settings',
         path: '/settings',
         icon: Settings
+    },
+    {
+        name: 'FilterNews',
+        path: '/filter-news',
+        icon: Settings
     }
 ]
 
