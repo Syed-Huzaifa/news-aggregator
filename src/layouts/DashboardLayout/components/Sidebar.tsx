@@ -1,23 +1,18 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import SidebarItem from './SidebarItem';
 import { sidebarItems } from '../../../constants'
 
 const Sidebar: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
+  const [open] = React.useState(true);
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250 }} role="presentation">
       <List>
         {sidebarItems.map((item, index) => (
-            <SidebarItem item={item} />
+            <SidebarItem key={index} item={item} />
         ))}
       </List>
     </Box>
@@ -25,8 +20,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
+      <Drawer variant='persistent' open={open}>
         {DrawerList}
       </Drawer>
     </div>
