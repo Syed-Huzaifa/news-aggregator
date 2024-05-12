@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { NewsCard } from 'src/components/atoms/NewsCard';
-import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { fetchArticlesWithQuery, fetchTopHeadlines } from 'src/utils';
 import { useDebounce } from 'src/helpers/use-debounce';
