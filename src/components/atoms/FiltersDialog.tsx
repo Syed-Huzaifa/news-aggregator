@@ -11,18 +11,13 @@ import { ICategory, categories, ISource, sources } from 'src/constants';
 import { getLocalStorageData, setLocalStorageData } from 'src/services/local-storage';
 import { useEffect, useState } from 'react';
 import { NewsFilters } from 'src/interfaces/newsFilter.interface';
-import { DateFilter } from '../atoms/Datepicker';
 
-export default function FormDialog() {
+export default function FormDialog({applyFilter}) {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState<NewsFilters>(() => {
     const storedFilters = getLocalStorageData('filters');
     return storedFilters ? JSON.parse(storedFilters) : { category: [], source: [], date: { to: '', from: '' } };
   })
-
-  useEffect(() => {
-    setLocalStorageData('userPreferences', JSON.stringify(filters));
-  }, [filters]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>, fieldName: keyof NewsFilters) => {
     const { target: { value } } = event;
@@ -32,8 +27,6 @@ export default function FormDialog() {
       [fieldName]: typeof value === 'string' ? (value as string).split(',') : value as any[],
     }));
   }
-
-  console.log('filters', filters)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,6 +46,7 @@ export default function FormDialog() {
     }));
   }
 
+
   return (
     <React.Fragment>
       <Button variant="contained" onClick={handleClickOpen}>
@@ -67,8 +61,6 @@ export default function FormDialog() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as any).entries());
-            const email = formJson.email;
-            console.log(email);
             handleClose();
           },
         }}
@@ -99,7 +91,7 @@ export default function FormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Apply Filters</Button>
+          <Button type="submit" onClick={() => applyFilter(filters)}>Apply Filters</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
