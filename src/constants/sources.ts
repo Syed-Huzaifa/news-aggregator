@@ -10,7 +10,7 @@ export const sources: ISource[] = [
     },
     {
         title: 'The New York Times',
-        value: 'The New York Times'
+        value: 'the-new-york-times'
     },
     {
         title: 'CNN',
@@ -18,30 +18,30 @@ export const sources: ISource[] = [
     },
     {
         title: 'The Guardian',
-        value: 'The Guardian'
+        value: 'the-guardian'
     },
     {
         title: 'Reuters',
-        value: 'Reuters'
+        value: 'reuters'
     },
     {
         title: 'Associated Press',
-        value: 'Associated Press'
+        value: 'associated-press'
     },
     {
         title: 'The Washington Post',
-        value: 'The Washington Post'
+        value: 'the-washington-post'
     },
     {
         title: 'NPR (National Public Radio)',
-        value: 'NPR (National Public Radio)'
+        value: 'npr'
     },
     {
         title: 'Fox News',
-        value: 'Fox News'
+        value: 'fox-news'
     },
     {
         title: 'Bloomberg',
-        value: 'Bloomberg'
+        value: 'bloomberg'
     },
 ]
