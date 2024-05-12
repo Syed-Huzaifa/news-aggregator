@@ -3,6 +3,7 @@ import { NewsApiArticle } from 'src/interfaces/feeds.interface';
 import { fetchNewsApi } from 'src/services/use-news-api';
 import { fetchNytApi } from 'src/services/use-nyt-api';
 import { fetchGuardianApi } from 'src/services/use-guardian-api';
+import { showSnack } from 'src/helpers/use-snackbar';
 
 const newsApiUrl = process.env.REACT_APP_NEWS_API_URL;
 const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
@@ -49,53 +50,36 @@ export const normalizeAndMergeArticles = (articles: any[]) => {
     });
 };
 
-const createNewsApiParams = (q: string[], sources: string, author: string) => {
+const createNewsApiParams = (q: string[]) => {
     return {
         q: q.join(', '),
-        sources: sources ? sources : '',
         apiKey: newsApiKey,
-        author: author ? author : ''
     };
 }
 
-const createNytApiParams = (q: string[], fq: string, author: string) => {
+const createNytApiParams = (q: string[]) => {
     let params = {}
     params = { ...params, q: q.join(','), 'api-key': nytApiKey };
-
-    if (fq) {
-        params = { ...params, fq: `news_desk:("${fq ? fq : ''}")` }
-    }
-
-    if (author) {
-        params = { ...params, fq: `byline:("${author ? author : ''}")` }
-    }
     return {
         q: q.join(', '),
-        fq: `news_desk:("${fq ? fq : ''}")&fq=byline:("${author ? author : ''}")`,
         'api-key': nytApiKey,
     };
 }
 
-const createGuardianApiParams = (q: string[], section: string, author: string) => {
+const createGuardianApiParams = (q: string[]) => {
     let params = {}
     params = { ...params, q: q.join(', '), 'api-key': guardianApiKey }
-    if (section) {
-        params = { ...params, section: section }
-    }
-
-    if (author) {
-        params = { ...params, author: author }
-    }
     return params;
 }
 
 
 export const fetchArticlesWithQuery = async (categories: string[], source?: string, author?: string) => {
+    const { showSnackbar } = showSnack();
     try {
         const [newsApiResponse, nytApiResponse, guardianApiResponse] = await Promise.all([
-            fetchNewsApi(newsApiUrl, createNewsApiParams(categories, source, author)),
-            fetchNytApi(createNytApiParams(categories, source, author)),
-            fetchGuardianApi(guardianApiUrl, createGuardianApiParams(categories, source, author)),
+            fetchNewsApi(createNewsApiParams(categories)),
+            fetchNytApi(createNytApiParams(categories)),
+            fetchGuardianApi(createGuardianApiParams(categories)),
         ]);
 
         const newsArticles = normalizeAndMergeArticles(newsApiResponse);
@@ -105,6 +89,7 @@ export const fetchArticlesWithQuery = async (categories: string[], source?: stri
         const allArticles = [...newsArticles, ...nytArticles, ...guardianArticles];
         return allArticles;
     } catch (error) {
+        showSnackbar('Error fetching articles');
         console.error('Error fetching articles with query:', error);
     }
 };
