@@ -5,9 +5,9 @@ import Divider from '@mui/material/Divider';
 import { fetchArticlesWithQuery, fetchTopHeadlines } from 'src/utils';
 import { getLocalStorageData } from 'src/services/local-storage';
 import { useNavigate } from 'react-router-dom';
-import { HeadlinesCarousel } from 'src/components/atoms/Carousel';
+import { HeadlinesCarousel } from 'src/components/Carousel';
 import NewsCardSkeleton from 'src/components/atoms/SkeletonLoader';
-import { useSnackbar } from 'src/components/atoms/Snackbar';
+import { useSnackbar } from 'src/contexts/Snackbar';
 
 
 const NewsFeed: React.FC = () => {

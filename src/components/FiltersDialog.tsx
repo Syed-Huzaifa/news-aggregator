@@ -24,7 +24,7 @@ export default function FormDialog({applyFilter}) {
 
     setFilters(prevState => ({
       ...prevState,
-      [fieldName]: typeof value === 'string' ? (value as string).split(',') : value as any[],
+      [fieldName]: typeof value === 'string' ? (value as string).split(',') : value as string[],
     }));
   }
 
@@ -57,12 +57,6 @@ export default function FormDialog({applyFilter}) {
         onClose={handleClose}
         PaperProps={{
           component: 'form',
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
-            handleClose();
-          },
         }}
       >
         <DialogTitle>Filters</DialogTitle>

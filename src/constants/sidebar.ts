@@ -1,20 +1,22 @@
-import { RssFeed, Settings } from '@mui/icons-material';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import SettingsIcon from '@mui/icons-material/Settings';
+import TuneIcon from '@mui/icons-material/Tune';
 
 export const sidebarItems = [
     {
         name: 'News Feed',
         path: '/',
-        icon: RssFeed
+        icon: NewspaperIcon
     },
     {
         name: 'Settings',
         path: '/settings',
-        icon: Settings
+        icon: SettingsIcon
     },
     {
         name: 'FilterNews',
         path: '/filter-news',
-        icon: Settings
+        icon: TuneIcon
     }
 ]
 

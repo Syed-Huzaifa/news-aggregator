@@ -4,13 +4,13 @@ import { NewsCard } from 'src/components/atoms/NewsCard';
 import Divider from '@mui/material/Divider';
 import { getLocalStorageData } from 'src/services/local-storage';
 import { useNavigate } from 'react-router-dom';
-import FormDialog from 'src/components/atoms/FiltersDialog';
+import FormDialog from 'src/components/FiltersDialog';
 import { normalizeAndMergeArticles } from 'src/utils';
-import { applyFilter } from 'src/services/use-filter';
+import { applyFilter } from 'src/services/apply-filter';
 import InfiniteScroll from "react-infinite-scroll-component";
 import NewsCardSkeleton from 'src/components/atoms/SkeletonLoader';
 import { fetchNewsApi } from 'src/services/use-news-api';
-import { useSnackbar } from 'src/components/atoms/Snackbar';
+import { useSnackbar } from 'src/contexts/Snackbar';
 
 
 const FilterNews: React.FC = () => {

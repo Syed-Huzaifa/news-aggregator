@@ -7,6 +7,7 @@ const INITIAL_DELAY = 1000;
 async function fetchNewsApi(params): Promise<any> {
     const url = NEWS_API_URL;
     try {
+        console.log('params', params)
         return await fetchDataWithRetry(url, params);
     } catch (error) {
         throw error;
