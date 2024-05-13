@@ -10,6 +10,7 @@ import { applyFilter } from 'src/services/use-filter';
 import InfiniteScroll from "react-infinite-scroll-component";
 import NewsCardSkeleton from 'src/components/atoms/SkeletonLoader';
 import { fetchNewsApi } from 'src/services/use-news-api';
+import { useSnackbar } from 'src/components/atoms/Snackbar';
 
 
 const FilterNews: React.FC = () => {
@@ -17,6 +18,8 @@ const FilterNews: React.FC = () => {
     const [query, setQuery] = useState([]);
     const [page, setPage] = useState(1);
     const [savedFilters, setSavedFilters] = useState();
+
+    const { showSnackBar } = useSnackbar()
     const navigate = useNavigate()
 
     const createFilterParams = (filters) => {
@@ -41,7 +44,7 @@ const FilterNews: React.FC = () => {
             setSavedFilters(filters);
             setArticles(normalizeAndMergeArticles(searchedArticles));
         } catch (error) {
-            console.log(error);
+            showSnackBar('Error fetching news', 'error')
         }
     }
 
@@ -51,7 +54,7 @@ const FilterNews: React.FC = () => {
             const searchedArticles = await fetchNewsApi(createFilterParams(savedFilters));
             setArticles([...articles, ...normalizeAndMergeArticles(searchedArticles)]);
         } catch (error) {
-            console.log(error);
+            showSnackBar('Error fetching news', 'error')
         }
     }
 

@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { NewsCard } from 'src/components/atoms/NewsCard';
 import Divider from '@mui/material/Divider';
 import { fetchArticlesWithQuery, fetchTopHeadlines } from 'src/utils';
-import { useDebounce } from 'src/helpers/use-debounce';
 import { getLocalStorageData } from 'src/services/local-storage';
 import { useNavigate } from 'react-router-dom';
 import { HeadlinesCarousel } from 'src/components/atoms/Carousel';
 import NewsCardSkeleton from 'src/components/atoms/SkeletonLoader';
+import { useSnackbar } from 'src/components/atoms/Snackbar';
 
 
 const NewsFeed: React.FC = () => {
     const [articles, setArticles] = useState([]);
     const [headlines, setHeadlines] = useState([]);
     const [query, setQuery] = useState([]);
+
+    const { showSnackBar } = useSnackbar()
     const navigate = useNavigate()
 
     const fetchArticles = async () => {
@@ -23,15 +25,9 @@ const NewsFeed: React.FC = () => {
             const topHeadlines = await fetchTopHeadlines();
             setHeadlines(topHeadlines);
         } catch (error) {
-            console.log(error);
+            showSnackBar('Error fetching news', 'error');
         }
     }
-
-    const handleQueryChange = useDebounce(async (value) => {
-        const userPreferences = getLocalStorageData('category');
-        userPreferences.push(value);
-        setQuery(userPreferences);
-    }, 500)
 
     useEffect(() => {
         if (query.length) {
@@ -40,7 +36,6 @@ const NewsFeed: React.FC = () => {
     }, [query.length])
 
     useEffect(() => {
-        console.log('emmpty use effect')
         if (getLocalStorageData('category')) {
             setQuery(getLocalStorageData('category'));
         } else {
