@@ -2,15 +2,13 @@ import { get } from '../helpers/http-handler';
 
 const NEWS_API_URL = process.env.REACT_APP_NEWS_API_URL;
 const MAX_RETRIES = 3;
-const INITIAL_DELAY = 1000; // Initial delay in milliseconds
+const INITIAL_DELAY = 1000;
 
 async function fetchNewsApi(params): Promise<any> {
-    console.log('params', params);
     const url = NEWS_API_URL;
     try {
         return await fetchDataWithRetry(url, params);
     } catch (error) {
-        console.error('Error fetching news:', error);
         throw error;
     }
 }

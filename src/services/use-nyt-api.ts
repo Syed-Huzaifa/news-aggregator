@@ -5,12 +5,10 @@ const MAX_RETRIES = 3;
 const INITIAL_DELAY = 1000; // Initial delay in milliseconds
 
 async function fetchNytApi(params): Promise<any> {
-    console.log('params', params);
     const url = NYT_API_URL;
     try {
         return await fetchDataWithRetry(url, params);
     } catch (error) {
-        console.error('Error fetching news:', error);
         throw error;
     }
 }
