@@ -3,16 +3,13 @@ import { NewsApiArticle } from 'src/interfaces/feeds.interface';
 import { fetchNewsApi } from 'src/services/use-news-api';
 import { fetchNytApi } from 'src/services/use-nyt-api';
 import { fetchGuardianApi } from 'src/services/use-guardian-api';
-import { showSnack } from 'src/helpers/use-snackbar';
 
-const newsApiUrl = process.env.REACT_APP_NEWS_API_URL;
 const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
+
 const newsApiTopHeadlinesUrl = process.env.REACT_APP_NEWS_API_TOP_HEADLINES_URL;
 
-const nytApiUrl = process.env.REACT_APP_NYT_API_URL;
 const nytApiKey = process.env.REACT_APP_NYT_API_KEY;
 
-const guardianApiUrl = process.env.REACT_APP_THE_GUARDIAN_API_URL;
 const guardianApiKey = process.env.REACT_APP_THE_GUARDIAN_API_KEY;
 
 export const normalizeAndMergeArticles = (articles: any[]) => {
@@ -74,7 +71,6 @@ const createGuardianApiParams = (q: string[]) => {
 
 
 export const fetchArticlesWithQuery = async (categories: string[], source?: string, author?: string) => {
-    const { showSnackbar } = showSnack();
     try {
         const [newsApiResponse, nytApiResponse, guardianApiResponse] = await Promise.all([
             fetchNewsApi(createNewsApiParams(categories)),
@@ -89,8 +85,7 @@ export const fetchArticlesWithQuery = async (categories: string[], source?: stri
         const allArticles = [...newsArticles, ...nytArticles, ...guardianArticles];
         return allArticles;
     } catch (error) {
-        showSnackbar('Error fetching articles');
-        console.error('Error fetching articles with query:', error);
+        throw error;
     }
 };
 
@@ -99,7 +94,7 @@ export const fetchTopHeadlines = async () => {
         const headlinesApiResponse = await get(`${newsApiTopHeadlinesUrl}?country=us&apiKey=${newsApiKey}`);
         return (headlinesApiResponse as any).data.articles;
     } catch (error) {
-        console.error('Error fetching headlines with query:', error);
+        throw error;
     }
 }
 

@@ -2,15 +2,13 @@ import { get } from '../helpers/http-handler';
 
 const GUARDIAN_API_URL = process.env.REACT_APP_THE_GUARDIAN_API_URL;
 const MAX_RETRIES = 3;
-const INITIAL_DELAY = 1000; // Initial delay in milliseconds
+const INITIAL_DELAY = 1000;
 
 async function fetchGuardianApi(params): Promise<any> {
-    console.log('params', params);
     const url = GUARDIAN_API_URL;
     try {
         return await fetchDataWithRetry(url, params);
     } catch (error) {
-        console.error('Error fetching news:', error);
         throw error;
     }
 }
