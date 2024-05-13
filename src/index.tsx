@@ -5,7 +5,7 @@ import App from './App';
 import { theme } from './themes/theme';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { SnackbarProvider } from './components/atoms/Snackbar';
+import { SnackbarProvider } from './contexts/Snackbar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

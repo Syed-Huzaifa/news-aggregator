@@ -49,7 +49,7 @@ export const normalizeAndMergeArticles = (articles: any[]) => {
 
 const createNewsApiParams = (q: string[]) => {
     return {
-        q: q.join(', '),
+        q: q.join(','),
         apiKey: newsApiKey,
     };
 }
@@ -58,14 +58,14 @@ const createNytApiParams = (q: string[]) => {
     let params = {}
     params = { ...params, q: q.join(','), 'api-key': nytApiKey };
     return {
-        q: q.join(', '),
+        q: q.join(','),
         'api-key': nytApiKey,
     };
 }
 
 const createGuardianApiParams = (q: string[]) => {
     let params = {}
-    params = { ...params, q: q.join(', '), 'api-key': guardianApiKey }
+    params = { ...params, q: q.join(','), 'api-key': guardianApiKey }
     return params;
 }
 

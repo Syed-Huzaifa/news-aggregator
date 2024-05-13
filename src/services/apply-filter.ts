@@ -3,14 +3,14 @@ export const applyFilter = (filters) => {
     if (filters?.category) {
         params = {
             ...params,
-            q: filters.category.join(', ')
+            q: filters.category.join(',')
         }
     }
 
     if (filters?.source) {
         params = {
             ...params,
-            sources: filters.source.join(', ')
+            sources: filters.source.join(',')
         }
     }
 
