@@ -8,8 +8,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TuneIcon from '@mui/icons-material/Tune';
 import { Box, MenuItem, Select, Typography } from '@material-ui/core';
 import { ICategory, categories, ISource, sources } from 'src/constants';
-import { getLocalStorageData, setLocalStorageData } from 'src/services/local-storage';
-import { useEffect, useState } from 'react';
+import { getLocalStorageData } from 'src/services/local-storage';
+import { useState } from 'react';
 import { NewsFilters } from 'src/interfaces/newsFilter.interface';
 
 export default function FormDialog({applyFilter}) {

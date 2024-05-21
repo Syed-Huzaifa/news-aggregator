@@ -9,6 +9,7 @@ export const SnackbarProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState('info');
+  console.log(severity);
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {

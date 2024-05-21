@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Skeleton from '@mui/material/Skeleton';
 
 const NewsCardSkeleton: React.FC = () => {
