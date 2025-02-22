@@ -1,6 +1,6 @@
 import { NewsArticle, NewsProvider } from "@/types/news";
 
-const WORLD_NEWS_API_KEY = import.meta.env.VITE_REACT_APP_WORLD_API_KEY;
+const WORLD_NEWS_API_KEY = import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_KEY;
 const NYT_API_KEY = import.meta.env.VITE_REACT_APP_NYT_API_KEY;
 const GUARDIAN_API_KEY = import.meta.env.VITE_REACT_APP_THE_GUARDIAN_API_KEY;
 
@@ -56,7 +56,7 @@ async function fetchWorldNewsApi(
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_URL);
 
-        url.searchParams.append("apiKey", WORLD_NEWS_API_KEY);
+        url.searchParams.append("api-key", WORLD_NEWS_API_KEY);
 
         // Handle category-based query
         const apiCategories = categories
@@ -66,29 +66,29 @@ async function fetchWorldNewsApi(
             .filter(Boolean);
         const searchQuery =
             query || (apiCategories.length ? apiCategories.join(" OR ") : "general");
-        url.searchParams.append("q", searchQuery);
+        url.searchParams.append("text", searchQuery);
 
         if (apiCategories.length === 1) {
-            url.searchParams.append("category", apiCategories[0]);
+            url.searchParams.append("categories", apiCategories[0]);
         }
 
         url.searchParams.append("page", page.toString());
-        url.searchParams.append("pageSize", pageSize.toString());
+        url.searchParams.append("number", pageSize.toString());
 
         const res = await fetch(url.toString());
         if (!res.ok) throw new Error("World News API request failed");
 
         const data = await res.json();
-        return data.articles
-            .filter((article: any) => article.urlToImage)
+        return data.news
+            .filter((article: any) => article.image)
             .map((article: any) => ({
-                id: `newsapi-${article.url}`,
+                id: `worldapi-${article.url}`,
                 title: article.title,
-                description: article.description,
+                description: article.summary,
                 url: article.url,
-                publishedAt: article.publishedAt,
-                source: article.source,
-                imageUrl: article.urlToImage,
+                publishedAt: article.publish_date,
+                source: article.source ?? {},
+                imageUrl: article.image,
                 author: article.author,
                 category: article.category,
             }));
