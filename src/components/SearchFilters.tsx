@@ -38,7 +38,6 @@ export function SearchFilters({ filters, onFiltersChange }: SearchFiltersProps) 
             <div className="relative flex-1 w-full">
                 <Input
                     placeholder="Search news..."
-                    value={filters.query}
                     onChange={(e) => handleSearch(e.target.value)}
                     className="w-full"
                 />

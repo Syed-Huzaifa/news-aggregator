@@ -4,6 +4,7 @@ import { SearchFilters } from "@/components/SearchFilters";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NewsFilters as NewsFiltersType } from "@/types/news";
 import { loadPreferences } from "@/lib/storage";
+import throttle from "lodash.throttle"
 
 export default function Home() {
   const preferences = loadPreferences();
@@ -12,6 +13,8 @@ export default function Home() {
     categories: preferences.categories,
     sortBy: "newest",
   });
+
+  const handleChange = throttle((value: any) => setFilters(value), 3000, { leading: false })
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,7 +30,7 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <SearchFilters filters={filters} onFiltersChange={setFilters} />
+        <SearchFilters filters={filters} onFiltersChange={handleChange} />
         <NewsGrid filters={filters} />
       </main>
     </div>
