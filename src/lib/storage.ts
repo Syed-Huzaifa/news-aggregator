@@ -2,6 +2,8 @@ import { UserPreferences } from '@/types/news';
 
 const PREFERENCES_KEY = 'news_preferences';
 
+export const NEWS_SOURCES = ['worldnews', 'nyt', 'guardian'] as const;
+
 export const NEWS_CATEGORIES = [
     'business',
     'technology',
@@ -15,6 +17,7 @@ export const NEWS_CATEGORIES = [
 
 const defaultPreferences: UserPreferences = {
     categories: ['technology', 'business'], // Default categories
+    sources: ['worldnews', 'nyt', 'guardian'], // Default sources
     theme: 'system',
     showImages: true,
     articlesPerPage: 10
@@ -34,7 +37,8 @@ export function loadPreferences(): UserPreferences {
             ...defaultPreferences,
             ...parsed,
             // Ensure we always have at least one category selected
-            categories: parsed.categories?.length ? parsed.categories : defaultPreferences.categories
+            categories: parsed.categories?.length ? parsed.categories : defaultPreferences.categories,
+            sources: parsed.sources?.length ? parsed.sources : defaultPreferences.sources
         };
     } catch {
         return defaultPreferences;

@@ -1,4 +1,5 @@
 import { NewsArticle, NewsProvider } from "@/types/news";
+import { toDate } from "date-fns";
 
 const WORLD_NEWS_API_KEY = import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_KEY;
 const NYT_API_KEY = import.meta.env.VITE_REACT_APP_NYT_API_KEY;
@@ -51,7 +52,9 @@ async function fetchWorldNewsApi(
     query: string,
     categories: string[],
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    toDate: string,
+    fromDate: string
 ): Promise<NewsArticle[]> {
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_URL);
@@ -72,6 +75,14 @@ async function fetchWorldNewsApi(
             url.searchParams.append("categories", apiCategories[0]);
         }
 
+        if (toDate) {
+            url.searchParams.append("earliest-publish-date", fromDate);
+        }
+        
+        if (fromDate) {
+            url.searchParams.append("latest-publish-date", toDate);
+        }
+
         url.searchParams.append("page", page.toString());
         url.searchParams.append("number", pageSize.toString());
 
@@ -87,7 +98,7 @@ async function fetchWorldNewsApi(
                 description: article.summary,
                 url: article.url,
                 publishedAt: article.publish_date,
-                source: article.source ?? {},
+                source: { id: "worldnews", name: "The World News" },
                 imageUrl: article.image,
                 author: article.author,
                 category: article.category,
@@ -102,7 +113,9 @@ async function fetchNYT(
     query: string,
     categories: string[],
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    fromDate: string,
+    toDate: string
 ): Promise<NewsArticle[]> {
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_NYT_API_URL);
@@ -116,6 +129,14 @@ async function fetchNYT(
             query || (apiCategories.length ? apiCategories.join(" OR ") : "");
         url.searchParams.append("q", searchQuery);
 
+        if (fromDate) {
+            url.searchParams.append("begin_date", fromDate.replaceAll("-", ""));
+        }
+
+        if (toDate) {
+            url.searchParams.append("end_date", toDate.replaceAll("-", ""));
+        }
+
         url.searchParams.append("page", page.toString());
         url.searchParams.append(
             "fl",
@@ -126,14 +147,13 @@ async function fetchNYT(
         if (!res.ok) throw new Error("NYT API request failed");
 
         const data = await res.json();
-        return data.response.docs
+        const createdData = data.response.docs
             .filter(
                 (article: any) =>
-                    article.multimedia?.length > 0 &&
-                    (!apiCategories.length || apiCategories.includes(article.news_desk))
+                    article.multimedia?.length
             )
-            .slice(0, pageSize)
-            .map((article: any) => ({
+            .map((article: any) => {
+                return {
                 id: `nyt-${article._id}`,
                 title: article.headline.main,
                 description: article.abstract,
@@ -143,7 +163,8 @@ async function fetchNYT(
                 imageUrl: `https://www.nytimes.com/${article.multimedia[0].url}`,
                 author: article.byline?.original,
                 category: article.news_desk?.toLowerCase(),
-            }));
+            }});
+        return createdData;
     } catch (error) {
         console.error("Error fetching from NYT:", error);
         return [];
@@ -154,7 +175,9 @@ async function fetchGuardian(
     query: string,
     categories: string[],
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    toDate: string,
+    fromDate: string
 ): Promise<NewsArticle[]> {
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_THE_GUARDIAN_API_URL);
@@ -169,7 +192,8 @@ async function fetchGuardian(
         const searchQuery =
             query || (apiCategories.length ? apiCategories.join(" OR ") : "");
         url.searchParams.append("q", searchQuery);
-
+        url.searchParams.append("to-date", toDate)
+        url.searchParams.append("from-date", fromDate)
         url.searchParams.append("page", page.toString());
         url.searchParams.append("page-size", pageSize.toString());
         url.searchParams.append("show-fields", "thumbnail,byline,trailText");
@@ -205,23 +229,24 @@ export async function fetchNews(
     query: string,
     categories: string[],
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    providers: string[],
+    toDate: string,
+    fromDate: string
 ): Promise<NewsArticle[]> {
-    const providers: NewsProvider[] = ["newsapi", "nyt", "guardian"];
-
     const promises = providers.map((provider) => {
         switch (provider) {
-            case "newsapi":
-                return fetchWorldNewsApi(query, categories, page, pageSize);
+            case "worldnews":
+                return fetchWorldNewsApi(query, categories, page, pageSize, toDate, fromDate);
             case "nyt":
-                return fetchNYT(query, categories, page, pageSize);
+                return fetchNYT(query, categories, page, pageSize, fromDate, toDate);
             case "guardian":
-                return fetchGuardian(query, categories, page, pageSize);
+                return fetchGuardian(query, categories, page, pageSize, toDate, fromDate);
             default:
                 return Promise.resolve([]);
         }
     });
-
+    
     try {
         const results = await Promise.allSettled(promises);
         return results

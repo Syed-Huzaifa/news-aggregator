@@ -15,16 +15,20 @@ export interface NewsArticle {
   category?: string;
 }
 
-export type NewsProvider = "newsapi" | "nyt" | "guardian";
+export type NewsProvider = ["worldnews" | "nyt" | "guardian"];
 
 export interface NewsFilters {
   query: string;
   categories: string[];
+  sources: string[];
+  fromDate: string;
+  toDate: string;
   sortBy: "relevance" | "newest" | "oldest";
 }
 
 export interface UserPreferences {
   categories: string[];
+  sources: string[];
   theme: "light" | "dark" | "system";
   showImages: boolean;
   articlesPerPage: number;

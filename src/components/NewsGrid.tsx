@@ -25,7 +25,7 @@ export function NewsGrid({ filters }: NewsGridProps) {
     } = useInfiniteQuery({
         queryKey: ["news", filters, preferences.articlesPerPage],
         queryFn: ({ pageParam = 1 }) =>
-            fetchNews(filters.query, filters.categories, pageParam, preferences.articlesPerPage),
+            fetchNews(filters.query, filters.categories, pageParam, preferences.articlesPerPage, filters.sources, filters.toDate, filters.fromDate),
         initialPageParam: 1,
         getNextPageParam: (_, pages) => pages.length + 1,
     });
@@ -34,7 +34,7 @@ export function NewsGrid({ filters }: NewsGridProps) {
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    }, [inView, hasNextPage, fetchNextPage]);
 
     if (error) {
         return (

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { NewsGrid } from "@/components/NewsGrid";
-import { SearchFilters } from "@/components/SearchFilters";
+import { SearchField } from "@/components/SearchFilters";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Filters } from "@/components/Filters";
 import { NewsFilters as NewsFiltersType } from "@/types/news";
 import { loadPreferences } from "@/lib/storage";
 import throttle from "lodash.throttle"
@@ -11,10 +12,13 @@ export default function Home() {
   const [filters, setFilters] = useState<NewsFiltersType>({
     query: "",
     categories: preferences.categories,
+    sources: preferences.sources,
+    fromDate: "",
+    toDate: "",
     sortBy: "newest",
   });
 
-  const handleChange = throttle((value: any) => setFilters(value), 3000, { leading: false })
+  const handleChange = throttle((value: any) => setFilters(value), 1500, { leading: false })
 
   return (
     <div className="min-h-screen bg-background">
@@ -30,7 +34,10 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <SearchFilters filters={filters} onFiltersChange={handleChange} />
+        <div className="flex">
+          <SearchField filters={filters} onFiltersChange={handleChange} />
+          <Filters filters={filters} onFiltersChange={handleChange} />
+        </div>
         <NewsGrid filters={filters} />
       </main>
     </div>
