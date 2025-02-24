@@ -29,7 +29,7 @@ To run the project locally, follow these steps:
 
 1. Clone the repository:
    ```sh
-   git clone [https://github.com/Syed-Huzaifa/news-aggregator](https://github.com/Syed-Huzaifa/news-aggregator.git)
+   git clone https://github.com/Syed-Huzaifa/news-aggregator.git
    cd news-aggregator
    ```
 
