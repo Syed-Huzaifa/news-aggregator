@@ -12,6 +12,7 @@ export default function Home() {
   const [filters, setFilters] = useState<NewsFiltersType>({
     query: "",
     categories: preferences.categories,
+    author: "",
     sources: preferences.sources,
     fromDate: "",
     toDate: "",

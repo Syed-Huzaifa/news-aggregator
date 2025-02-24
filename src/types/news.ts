@@ -20,6 +20,7 @@ export type NewsProvider = ["worldnews" | "nyt" | "guardian"];
 export interface NewsFilters {
   query: string;
   categories: string[];
+  author?: string;
   sources: string[];
   fromDate: string;
   toDate: string;

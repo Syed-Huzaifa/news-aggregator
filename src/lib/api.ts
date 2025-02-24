@@ -54,7 +54,8 @@ async function fetchWorldNewsApi(
     page = 1,
     pageSize = 10,
     toDate: string,
-    fromDate: string
+    fromDate: string,
+    author?: string
 ): Promise<NewsArticle[]> {
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_URL);
@@ -81,6 +82,10 @@ async function fetchWorldNewsApi(
         
         if (fromDate) {
             url.searchParams.append("latest-publish-date", toDate);
+        }
+
+        if (author) {
+            url.searchParams.append("authors", author);
         }
 
         url.searchParams.append("page", page.toString());
@@ -115,7 +120,7 @@ async function fetchNYT(
     page = 1,
     pageSize = 10,
     fromDate: string,
-    toDate: string
+    toDate: string,
 ): Promise<NewsArticle[]> {
     try {
         const url = new URL(import.meta.env.VITE_REACT_APP_NYT_API_URL);
@@ -232,12 +237,13 @@ export async function fetchNews(
     pageSize = 10,
     providers: string[],
     toDate: string,
-    fromDate: string
+    fromDate: string,
+    author?: string
 ): Promise<NewsArticle[]> {
     const promises = providers.map((provider) => {
         switch (provider) {
             case "worldnews":
-                return fetchWorldNewsApi(query, categories, page, pageSize, toDate, fromDate);
+                return fetchWorldNewsApi(query, categories, page, pageSize, toDate, fromDate, author);
             case "nyt":
                 return fetchNYT(query, categories, page, pageSize, fromDate, toDate);
             case "guardian":

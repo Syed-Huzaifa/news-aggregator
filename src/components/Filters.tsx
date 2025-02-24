@@ -33,6 +33,7 @@ export function Filters({ filters, onFiltersChange }: SearchFiltersProps) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [selectedSources, setSelectedSources] = useState<string[]>([]);
+  const [authorQuery, setAuthorQuery] = useState("");
 
     const handleCheckboxChange = (src: string) => {
         setSelectedSources((prev) =>
@@ -45,6 +46,7 @@ export function Filters({ filters, onFiltersChange }: SearchFiltersProps) {
       ...filters,
       query,
       categories: category ? [category] : [],
+      author: authorQuery,
       sources: selectedSources.length ? [...selectedSources] : ["worldnews", "nyt", "guardian"],
       fromDate,
       toDate,
@@ -67,20 +69,21 @@ export function Filters({ filters, onFiltersChange }: SearchFiltersProps) {
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="category">Category</Label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {NEWS_CATEGORIES.map((cat) => (
-                    <SelectItem key={cat} value={cat.toLowerCase()}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="grid gap-2">
+                <Label htmlFor="category">Category</Label>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {NEWS_CATEGORIES.map((cat) => (
+                      <SelectItem key={cat} value={cat.toLowerCase()}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             {NEWS_SOURCES.map((src) => (
                 <div className="flex gap-2">
@@ -88,6 +91,10 @@ export function Filters({ filters, onFiltersChange }: SearchFiltersProps) {
                         <Label htmlFor="sources">{src}</Label>
                 </div>
             ))}
+            <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Input placeholder="Enter author name..." onChange={(e) => setAuthorQuery(e.target.value)} />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="from">From Date</Label>
               <Input
