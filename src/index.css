@@ -12,6 +12,19 @@ body {
   }
 }
 
+::-webkit-scrollbar {
+  background-color: transparent !important;
+  width: 10px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #5853534b;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
