@@ -1,34 +1,20 @@
-FROM node:20-alpine AS builder
+# Use official Node.js image as base
+FROM node:20-alpine
 
-# Set working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json before installing dependencies (better caching)
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile
+RUN npm install
 
 # Copy the rest of the application files
 COPY . .
 
-# Build the application
-RUN npm run build
+# Expose the Vite development server port
+EXPOSE 3000
 
-# Use a lightweight web server for serving static files
-FROM nginx:alpine AS production
-
-# Set working directory in nginx
-WORKDIR /usr/share/nginx/html
-
-# Remove default nginx static files
-RUN rm -rf ./*
-
-# Copy built files from builder stage
-COPY --from=builder /app/dist .
-
-# Expose the port nginx runs on
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Command to start the Vite development server
+CMD ["npm", "run", "dev", "--", "--host"]

@@ -85,12 +85,15 @@ export function Filters({ filters, onFiltersChange }: SearchFiltersProps) {
                 </Select>
               </div>
             </div>
+            <div className="flex flex-col w-full gap-3">
+              <Label>Sources:</Label>
             {NEWS_SOURCES.map((src) => (
                 <div className="flex gap-2">
                     <Checkbox id="sources" checked={selectedSources.includes(src)} onCheckedChange={() => handleCheckboxChange(src)} value={src} />
                         <Label htmlFor="sources">{src}</Label>
                 </div>
             ))}
+            </div>
             <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Input placeholder="Enter author name..." onChange={(e) => setAuthorQuery(e.target.value)} />

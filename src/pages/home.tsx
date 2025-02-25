@@ -35,7 +35,7 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="flex">
+        <div className="flex gap-4">
           <SearchField filters={filters} onFiltersChange={handleChange} />
           <Filters filters={filters} onFiltersChange={handleChange} />
         </div>
