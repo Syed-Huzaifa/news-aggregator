@@ -79,9 +79,6 @@ The app utilizes **Shadcn/ui** for beautiful and customizable UI components, inc
 - News cards
 - Buttons and loading states
 
-## 📷 Screenshots
-(Include relevant screenshots of your app here)
-
 ## 📌 Future Enhancements
 - Personalized news feed.
 - Additional news sources and categories.
@@ -92,5 +89,4 @@ This project is open-source and available under the **MIT License**.
 
 ## 📬 Contact
 For any questions or suggestions, reach out via:
-- GitHub Issues
 - Email: shahhuzaifa338@gmail.com
