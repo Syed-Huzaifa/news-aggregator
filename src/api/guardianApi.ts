@@ -1,5 +1,5 @@
 import { NewsArticle } from "@/types/news";
-import { categoryMapping } from "./storage";
+import { categoryMapping } from "@/lib/storage";
 
 const GUARDIAN_API_KEY = import.meta.env.VITE_REACT_APP_THE_GUARDIAN_API_KEY;
 

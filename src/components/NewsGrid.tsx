@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { NewsCard } from "./NewsCard";
-import { fetchNews } from "@/lib/api";
+import { fetchNews } from "@/api";
 import { NewsFilters } from "@/types/news";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";

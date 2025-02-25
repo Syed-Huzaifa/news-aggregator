@@ -1,5 +1,5 @@
 import { NewsArticle } from "@/types/news";
-import { categoryMapping } from "./storage";
+import { categoryMapping } from "@/lib/storage";
 
 const WORLD_NEWS_API_KEY = import.meta.env.VITE_REACT_APP_WORLD_NEWS_API_KEY;
 
